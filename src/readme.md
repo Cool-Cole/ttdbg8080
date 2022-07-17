@@ -11,7 +11,7 @@ Or ttdbg for short.
 - [ ] Supports watch points
 - [X] Builtin disassembler
 - [X] Step forwards in program execution
-- [ ] Step backwards in program execution
+- [X] Step backwards in program execution
 - [X] Dump the emulator memory to a file
 - [ ] Facilitates user modification of register values
 
