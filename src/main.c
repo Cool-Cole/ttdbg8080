@@ -75,17 +75,24 @@ int main(int argc, char *argv[]) {
         // Warning: Parsing commands in this manner assumes that the user is inputting them correctly
         // Proper error handling should be implemented for serious situation.
         switch (debuggerCommands[0]) {
+            case 'z':
+                if(emulateReplay(&state, atoi(debuggerCommands + 1)) == 1){
+                    printf("Breakpoint hit at 0x%04x!\\n", state.PC);
+                }
+                else {
+                    printf("Successfully stepped back %d instruction(s)\n\n", atoi(debuggerCommands + 1));
+                }                break;
             case 's':
                 if(emulateSteps(&state, atoi(debuggerCommands + 1)) == 1){
                     printf("Breakpoint hit at 0x%04x!\\n", state.PC);
                 }
                 else {
-                    printf("Successfully emulated %d instruction(s)\n\n", atoi(debuggerCommands + 1));
+                    printf("Successfully stepped forward %d instruction(s)\n\n", atoi(debuggerCommands + 1));
                 }
                 break;
             case 'p':
                 printState(&state);
-                printBreakPoints(&state);
+                printBreakpoints(&state);
                 break;
             case 'd':
                 disassembleMulti(state.memory, state.PC, atoi(debuggerCommands + 1));

@@ -84,7 +84,7 @@ int emulateState(cpuState *state);
 int emulateSteps(cpuState *state, int steps);
 int dumpState(cpuState *state, const char *filename);
 void loadROM(cpuState *state, const char *filePath, const u16 memOffset);
-int emulateReplay(cpuState *state, u64 steps);
+int emulateReplay(cpuState *state, int steps);
 
 
 #endif//INC_8080EMU_HANDLESTATE_H

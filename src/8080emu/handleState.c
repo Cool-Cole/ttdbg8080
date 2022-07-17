@@ -96,12 +96,14 @@ int emulateSteps(cpuState *state, int steps){
     return 0;
 }
 
-int emulateReplay(cpuState *state, u64 steps){
+int emulateReplay(cpuState *state, int steps){
 
     // Restore the state of the memory before proceeding with emulation
     for(int i = 0; i < UINT16_MAX + 1; i++){
         state->memory[i] = state->initialMemory[i];
     }
+
+    state->PC = 0;
 
     state->HL = 0;
     state->BC = 0;
@@ -110,7 +112,11 @@ int emulateReplay(cpuState *state, u64 steps){
     state->flags.flagByte = 0;
     state->flags._alwaysOne = 1;
 
-    emulateSteps(state, steps);
+    u64 temp = state->totalInstructionCounter;
+
+    state->totalInstructionCounter = 0;
+
+    return emulateSteps(state, temp - steps);
 }
 
 int emulateState(cpuState *state) {

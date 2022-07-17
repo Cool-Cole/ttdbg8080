@@ -51,7 +51,17 @@ void addBreakpoint(cpuState *state, u16 address){
 
 }
 
-void printBreakPoints(cpuState *state){
+void deleteBreakpoint(cpuState *state, u16 address){
+    if(state->numBreakPoints != 0){
+
+
+        if(state->numBreakPoints == 0){
+            free(state->breakpoints);
+        }
+    }
+}
+
+void printBreakpoints(cpuState *state){
 
     printf("Breakpoints:\n");
 
