@@ -92,13 +92,13 @@ int main(int argc, char *argv[]) {
                 break;
             case 'b':
 
-                // This crashes for any value over UINT16_MAX
                 if(strtol(debuggerCommands + 2, &temp, 16) > UINT16_MAX){
-                    printf("%lu is to high!\n"
-                            "Please enter a lower address number.", strtol(debuggerCommands, temp, 16) );
+                    printf("%The number you entered is to high!\n"
+                            "Please enter a lower address number.\n");
+                } else {
+                    addBreakpoint(&state, (u16)strtol(debuggerCommands + 2, &temp, 16));
                 }
 
-                addBreakpoint(&state, (u16)strtol(debuggerCommands + 2, &temp, 16));
                 break;
             case 'h':
                 printDbgHelp();
