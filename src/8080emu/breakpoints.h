@@ -11,7 +11,9 @@
 // 1 for true
 int isBreakpointHit(cpuState *state);
 
-void addBreakPoint(cpuState *state, u16 address);
+void addBreakpoint(cpuState *state, u16 address);
 int deleteBreakPoint(cpuState *state, u16 address);
+
+void printBreakPoints(cpuState *state);
 
 #endif //TTDBG8080_BREAKPOINT_H

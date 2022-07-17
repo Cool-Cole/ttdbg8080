@@ -17,8 +17,6 @@ Or ttdbg for short.
 
 ## How it works
 
-
-
 ### The Disassembler
 
 The disassembler is a typical linear sweep disassembler, as such it doesn't follow the programs control flow. This may result in incorrectly disassembled bytes so make sure to keep an eye out for that if you are using ttdbg8080.
@@ -30,3 +28,7 @@ The emulator works by combing through instructions one by one and executing thei
 ### Time Travel Debugging
 
 The emulator/debugger facilitates the ability to step backwards in program execution. To accomplish this, the emulator simply reruns the program back to the desired point in execution. Breakpoints are kept and still checked for while the emulator reruns the program.
+
+## Disclaimer
+
+This is just a toy project that I occasionally work on. Feedback on this project's code is highly encouraged and appreciated. You can find my contact information here https://cole.pizza/contact/.

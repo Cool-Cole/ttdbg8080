@@ -49,6 +49,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    printf("In order to access the list of debugger commands, run the command \"h\".\n");
+
     // TESTING CODE FROM http://www.emulator101.com/full-8080-emulation.html
     // Fix the first instruction to be JMP 0x100
     //state.memory[0] = 0xc3;
@@ -83,17 +85,20 @@ int main(int argc, char *argv[]) {
                 break;
             case 'p':
                 printState(&state);
+                printBreakPoints(&state);
                 break;
             case 'd':
                 disassembleMulti(state.memory, state.PC, atoi(debuggerCommands + 1));
                 break;
             case 'b':
+
+                // This crashes for any value over UINT16_MAX
                 if(strtol(debuggerCommands + 2, &temp, 16) > UINT16_MAX){
                     printf("%lu is to high!\n"
                             "Please enter a lower address number.", strtol(debuggerCommands, temp, 16) );
                 }
 
-                addBreakPoint(&state, (u16)strtol(debuggerCommands + 2, &temp, 16));
+                addBreakpoint(&state, (u16)strtol(debuggerCommands + 2, &temp, 16));
                 break;
             case 'h':
                 printDbgHelp();
@@ -122,7 +127,7 @@ int main(int argc, char *argv[]) {
 
 void handlePrompt(char *command, const int maxLen){
 
-    printf("ttdbg:");
+    printf("ttdbg: ");
     fgets(command, maxLen, stdin);
 
     // print a new line character

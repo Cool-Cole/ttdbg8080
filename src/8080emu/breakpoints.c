@@ -4,7 +4,9 @@
 
 #include "breakpoints.h"
 
-#include "stdlib.h"
+#include <stdlib.h>
+#include <stdio.h>
+
 
 int isBreakpointHit(cpuState *state){
     for(int i = 0; i < state->numBreakPoints; i++){
@@ -16,7 +18,7 @@ int isBreakpointHit(cpuState *state){
     return 0;
 }
 
-void addBreakPoint(cpuState *state, u16 address){
+void addBreakpoint(cpuState *state, u16 address){
 
     if(state->numBreakPoints == 0){
         state->breakpoints = malloc(sizeof(u16));
@@ -38,7 +40,7 @@ void addBreakPoint(cpuState *state, u16 address){
             exit(EXIT_FAILURE);
         }
 
-        free(state->breakpoints);
+        //free(state->breakpoints);
 
         state->breakpoints = temp;
 
@@ -47,4 +49,19 @@ void addBreakPoint(cpuState *state, u16 address){
         state->numBreakPoints++;
     }
 
+}
+
+void printBreakPoints(cpuState *state){
+
+    printf("Breakpoints:\n");
+
+    if(state->breakpoints == 0){
+        printf("No breakpoints have been created.\n");
+    } else {
+        for(int i = 0; i < state->numBreakPoints; i++){
+            printf("0x%02x\n", state->breakpoints[i]);
+        }
+    }
+
+    printf("\n");
 }
