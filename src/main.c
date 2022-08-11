@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #include "8080emu/handleState.h"
 #include "8080emu/breakpoints.h"
@@ -8,6 +9,7 @@
 #include "8080disassemble/disassemble8080.h"
 
 void handlePrompt(char *command, int maxLen);
+void handleWrite(cpuState *state);
 void printHelp(void);
 void printDbgHelp(void);
 void printState(cpuState *state);
@@ -21,7 +23,7 @@ int main(int argc, char *argv[]) {
     debuggerCommands[0] = '\0';
 
     // This is needed for the strtol
-    char temp;
+    char *temp;
 
     char opt;
 
@@ -103,6 +105,7 @@ int main(int argc, char *argv[]) {
                     printf("%The number you entered is to high!\n"
                             "Please enter a lower address number.\n");
                 } else {
+                    // Convert the address the user provided to an unsigned short using strol.
                     addBreakpoint(&state, (u16)strtol(debuggerCommands + 2, &temp, 16));
                 }
 
@@ -118,6 +121,9 @@ int main(int argc, char *argv[]) {
                     printf("Could not dump the CPU memory to %s\n", debuggerCommands + 2);
                 }
 
+                break;
+            case 'w':
+                handleWrite(&state);
                 break;
             case 'q':
                 exit(EXIT_SUCCESS);
@@ -158,6 +164,163 @@ void handlePrompt(char *command, const int maxLen){
         }
 
     } while(command[i] != '\0');
+
+}
+
+void handleWrite(cpuState *state){
+    short maxLen = 128;
+    char command[maxLen];
+
+    bool validInput = false;
+
+    enum registers{SP, PC, HL, DE, BC, H, L, D, E, B, C, A, addr};
+
+    enum registers selectedRegister;
+
+    u16 address;
+
+    char *temp;
+
+    printf("Please enter an address in the form 0xffff or a register.\n"\
+    "The available registers are: SP, PC, HL, DE, BC, H, L, D, E, B, C, A\n");
+
+    do {
+        printf("Address or register: ");
+        fgets(command, maxLen, stdin);
+        puts("");
+
+        if(strncmp(command, "0x", 2) == 0){
+            address = (u16)strtol(command, &temp, 16);
+            selectedRegister = addr;
+            validInput = true;
+        } else if(strncmp(command, "SP", 2) == 0) {
+            selectedRegister = SP;
+            validInput = true;
+        } else if(strncmp(command, "PC", 2) == 0) {
+            selectedRegister = PC;
+            validInput = true;
+        } else if(strncmp(command, "HL", 2) == 0) {
+            selectedRegister = HL;
+            validInput = true;
+        } else if(strncmp(command, "DE", 2) == 0) {
+            selectedRegister = DE;
+            validInput = true;
+        } else if(strncmp(command, "BC", 2) == 0) {
+            selectedRegister = BC;
+            validInput = true;
+        } else if(strncmp(command, "H", 1) == 0) {
+            selectedRegister = H;
+            validInput = true;
+        } else if(strncmp(command, "L", 1) == 0) {
+            selectedRegister = L;
+            validInput = true;
+        } else if(strncmp(command, "D", 1) == 0) {
+            selectedRegister = D;
+            validInput = true;
+        } else if(strncmp(command, "E", 1) == 0) {
+            selectedRegister = E;
+            validInput = true;
+        } else if(strncmp(command, "B", 1) == 0) {
+            selectedRegister = B;
+            validInput = true;
+        } else if(strncmp(command, "C", 1) == 0) {
+            selectedRegister = C;
+            validInput = true;
+        } else if(strncmp(command, "A", 1) == 0) {
+            selectedRegister = A;
+            validInput = true;
+        }
+
+        if(strlen(command) > 7){
+            validInput = false;
+        }
+
+        if(validInput == false){
+            printf("Could not parse your input. Please try again.\n");
+        }
+
+    } while(validInput == false);
+
+    validInput = false;
+
+    u16 shortVal;
+    u8 byteVal;
+
+    do {
+
+        // Enums start and 0 and count up, so if it is less than BC then it is a 2 byte register
+        // else, the value can only accept 1 byte
+        if(selectedRegister <= BC){
+            printf("Please enter a 2 byte value in the form 0xffff: ");
+
+            fgets(command, maxLen, stdin);
+
+            if(strlen(command) == 7){
+                validInput = true;
+                shortVal = (u16)strtol(command, &temp, 16);
+            }
+        } else {
+            printf("Please enter a 1 byte value in the form 0xff: ");
+
+            fgets(command, maxLen, stdin);
+
+            if(strlen(command) == 5){
+                validInput = true;
+                byteVal = (u8)strtol(command, &temp, 16);
+            }
+        }
+
+        // Print a new line character
+        puts("");
+
+        if(validInput == false){
+            printf("Could not parse your input. Please try again.\n");
+        }
+
+    } while(validInput == false);
+
+    switch(selectedRegister){
+        case SP:
+            state->SP = shortVal;
+            break;
+        case PC:
+            state->SP = shortVal;
+            break;
+        case HL:
+            state->HL = shortVal;
+            break;
+        case DE:
+            state->DE = shortVal;
+            break;
+        case BC:
+            state->BC = shortVal;
+            break;
+        case H:
+            state->H = byteVal;
+            break;
+        case L:
+            state->L = byteVal;
+            break;
+        case D:
+            state->D = byteVal;
+            break;
+        case E:
+            state->E = byteVal;
+            break;
+        case B:
+            state->B = byteVal;
+            break;
+        case C:
+            state->C = byteVal;
+            break;
+        case A:
+            state->A = byteVal;
+            break;
+        case addr:
+            state->memory[address] = byteVal;
+            break;
+    }
+
 
 }
 
