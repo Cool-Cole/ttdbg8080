@@ -11,6 +11,7 @@
 // 1 for true
 int isBreakpointHit(cpuState *state);
 
+//
 void addBreakpoint(cpuState *state, u16 address);
 void deleteBreakpoint(cpuState *state, u16 address);
 

@@ -53,9 +53,9 @@ int main(int argc, char *argv[]) {
 
     // TESTING CODE FROM http://www.emulator101.com/full-8080-emulation.html
     // Fix the first instruction to be JMP 0x100
-    //state.memory[0] = 0xc3;
-    //state.memory[1] = 0;
-    //state.memory[2] = 0x01;
+    state.memory[0] = 0xc3;
+    state.memory[1] = 0;
+    state.memory[2] = 0x01;
 
     // Fix the stack pointer from 0x6ad to 0x7ad
     // this 0x06 byte 112 in the code, which is
@@ -180,7 +180,8 @@ void printDbgHelp(void){
     "z N       step back N instructions\n"
     "b 0xffff  set a breakpoint at an address\n"
     //"w 0xffff  set a watchpoint at an address\n"
-    "c         continue program execution until a breakpoint or watchpoint is hit\n"
+    "w         write to a register or address, a prompt will guide you\n"
+    "c         continue program execution until a breakpoint is hit\n"
     "d N       disassemble the next N instructions at the offset of the instruction pointer\n"
     "x file    dump the current emulator memory to a file\n"
     "h         print the debugger help page\n"
