@@ -6,16 +6,17 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 
-int isBreakpointHit(cpuState *state){
+bool isBreakpointHit(cpuState *state){
     for(int i = 0; i < state->numBreakPoints; i++){
         if(state->PC == state->breakpoints[i]){
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void addBreakpoint(cpuState *state, u16 address){
