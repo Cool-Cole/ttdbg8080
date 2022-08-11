@@ -9,9 +9,9 @@
 #include <stdbool.h>
 
 
-bool isBreakpointHit(cpuState *state){
+bool isBreakpointHit(cpuState *state, u16 addr){
     for(int i = 0; i < state->numBreakPoints; i++){
-        if(state->PC == state->breakpoints[i]){
+        if(addr == state->breakpoints[i]){
             return true;
         }
     }
@@ -70,7 +70,7 @@ void printBreakpoints(cpuState *state){
         printf("No breakpoints have been created.\n");
     } else {
         for(int i = 0; i < state->numBreakPoints; i++){
-            printf("0x%02x\n", state->breakpoints[i]);
+            printf("0x%04x\n", state->breakpoints[i]);
         }
     }
 

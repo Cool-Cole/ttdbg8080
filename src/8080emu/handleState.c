@@ -87,7 +87,7 @@ int emulateSteps(cpuState *state, int steps){
 
         emulateState(state);
 
-        if(isBreakpointHit(state) == 1){
+        if(isBreakpointHit(state, state->PC) == 1){
             return 1; // 1 can indicate a break point was hit?
         }
 

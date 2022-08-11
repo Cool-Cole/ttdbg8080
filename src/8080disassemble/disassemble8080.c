@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-
+#include "../8080emu/breakpoints.h"
 #include "disassemble8080.h"
 
 /* Register view for reference
@@ -30,19 +30,19 @@
  */
 
 // Disassemble
-void disassembleMulti(u8 *memory, u16 currentInstruction, int steps){
+void disassembleMulti(cpuState *state, u16 currentInstruction, int steps){
     int opLen = 0;
 
     for(int i = 0; i < steps; i++){
-        opLen += disassemble(memory, currentInstruction + opLen);
+        opLen += disassemble(state, currentInstruction + opLen);
     }
 
     puts("");
 }
 
-int disassemble(u8 *memory, u16 currentInstruction){
+int disassemble(cpuState *state, u16 currentInstruction){
 
-    unsigned char *code = &memory[currentInstruction];
+    unsigned char *code = &state->memory[currentInstruction];
     int opbytes = 1;
     printf("0x%04x ", currentInstruction);
 
@@ -485,6 +485,10 @@ int disassemble(u8 *memory, u16 currentInstruction){
         case 0xfe: printf("CPI    0x%02x", code[1]); opbytes = 2; break;
                // CALL $38
         case 0xff: printf("RST   7"); break;
+    }
+
+    if(isBreakpointHit(state, code - (u8 *)state->memory) == true){
+        printf("    <-- Breakpoint");
     }
 
     // print a new line character

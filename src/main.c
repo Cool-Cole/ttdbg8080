@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
                 printBreakpoints(&state);
                 break;
             case 'd':
-                disassembleMulti(state.memory, state.PC, atoi(debuggerCommands + 1));
+                disassembleMulti(&state, state.PC, atoi(debuggerCommands + 1));
                 break;
             case 'b':
 
