@@ -16,6 +16,16 @@ Or ttdbg8080 for short.
 - [X] Facilitates user modification of memory and register values
 - [ ] User modification of memory and registers persists across time travel replays
 
+## Using ttdbg8080
+
+### Printing the help page
+
+`ttdbg8080 -h`
+
+### Loading a rom file
+
+`ttdbg8080 -l rom.bin`
+
 ## How it works
 
 ### The Disassembler
