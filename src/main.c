@@ -342,7 +342,6 @@ void printDbgHelp(void){
     "s N       step froward N instructions\n"
     "z N       step back N instructions\n"
     "b 0xffff  set a breakpoint at an address\n"
-    //"w 0xffff  set a watchpoint at an address\n"
     "w         write to a register or address, a prompt will guide you\n"
     "c         continue program execution until a breakpoint is hit\n"
     "d N       disassemble the next N instructions at the offset of the instruction pointer\n"
