@@ -1,6 +1,6 @@
 # Time Travel Debugger and Emulator for the Intel 8080
 
-Or ttdbg for short.
+Or ttdbg8080 for short.
 
 ![An image of the intel 8080A](https://upload.wikimedia.org/wikipedia/commons/3/3a/KL_Intel_i8080_Black_Background.jpg "An intel 8080A")
 (Image courtesy of wikipedia)
