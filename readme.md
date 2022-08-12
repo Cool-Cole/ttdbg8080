@@ -6,7 +6,7 @@ Or ttdbg8080 for short.
 (Image courtesy of wikipedia)
 
 ## Features
-- [X] Emulation of the 8080 architecture (missing Auxiliary carry CPU flag)
+- [X] Emulation of the 8080 architecture (excluding Auxiliary carry CPU flag)
 - [X] Supports break points
 - [ ] Supports watch points
 - [X] Builtin disassembler
