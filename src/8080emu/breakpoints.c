@@ -53,11 +53,33 @@ void addBreakpoint(cpuState *state, u16 address){
 }
 
 void deleteBreakpoint(cpuState *state, u16 address){
+    int deletedBreakpointCount = 0;
+
     if(state->numBreakPoints != 0){
 
-
-        if(state->numBreakPoints == 0){
+        if(state->numBreakPoints == 1){
             free(state->breakpoints);
+            state->numBreakPoints = 0;
+            state->breakpoints = NULL;
+
+        } else {
+
+            for(int i = 0; i < state->numBreakPoints; i++){
+
+                if(state->breakpoints[i] == address){
+
+                    deletedBreakpointCount += 1;
+
+                    for(int j = i; j < state->numBreakPoints; j++){
+                        state->breakpoints[j] = state->breakpoints[j + 1];
+                    }
+
+                }
+
+            }
+
+            state->numBreakPoints -= deletedBreakpointCount;
+
         }
     }
 }
@@ -67,7 +89,7 @@ void printBreakpoints(cpuState *state){
     printf("Breakpoints:\n");
 
     if(state->breakpoints == 0){
-        printf("No breakpoints have been created.\n");
+        printf("No breakpoints are currently set.\n");
     } else {
         for(int i = 0; i < state->numBreakPoints; i++){
             printf("0x%04x\n", state->breakpoints[i]);

@@ -13,7 +13,8 @@ Or ttdbg for short.
 - [X] Step forwards in program execution
 - [X] Step backwards in program execution
 - [X] Dump the emulator memory to a file
-- [ ] Facilitates user modification of register values
+- [X] Facilitates user modification of memory and register values
+- [ ] User modification of memory and registers persists across time travel replays
 
 ## How it works
 
@@ -27,7 +28,7 @@ The emulator works by combing through instructions one by one and executing thei
 
 ### Time Travel Debugging
 
-The emulator/debugger facilitates the ability to step backwards in program execution. To accomplish this, the emulator simply reruns the program back to the desired point in execution. Breakpoints are kept and still checked for while the emulator reruns the program.
+The emulator/debugger facilitates the ability to step backwards in program execution. To accomplish this, the emulator simply reruns the program back to the desired point in execution. Breakpoints are kept and still checked for while the emulator reruns the program. At this point any modifications to the program by the user are not preserved when this action occurs.
 
 ## Disclaimer
 

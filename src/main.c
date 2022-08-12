@@ -78,13 +78,26 @@ int main(int argc, char *argv[]) {
         // Proper error handling should be implemented for serious situation.
         switch (debuggerCommands[0]) {
             case 'z':
+
+                if(strlen(debuggerCommands) < 3){
+                    printf("To few arguments for command z\n");
+                    break;
+                }
+
                 if(emulateReplay(&state, atoi(debuggerCommands + 1)) == 1){
                     printf("Breakpoint hit at 0x%04x!\\n", state.PC);
                 }
                 else {
                     printf("Successfully stepped back %d instruction(s)\n\n", atoi(debuggerCommands + 1));
-                }                break;
+                }
+                break;
             case 's':
+
+                if(strlen(debuggerCommands) < 3){
+                    printf("To few arguments for command s\n");
+                    break;
+                }
+
                 if(emulateSteps(&state, atoi(debuggerCommands + 1)) == 1){
                     printf("Breakpoint hit at 0x%04x!\\n", state.PC);
                 }
@@ -97,16 +110,43 @@ int main(int argc, char *argv[]) {
                 printBreakpoints(&state);
                 break;
             case 'd':
+
+                if(strlen(debuggerCommands) < 3){
+                    printf("To few arguments for command d\n");
+                    break;
+                }
+
                 disassembleMulti(&state, state.PC, atoi(debuggerCommands + 1));
                 break;
             case 'b':
 
+                if(strlen(debuggerCommands) < 3){
+                    printf("To few arguments for command b\n");
+                    break;
+                }
+
                 if(strtol(debuggerCommands + 2, &temp, 16) > UINT16_MAX){
                     printf("%The number you entered is to high!\n"
-                            "Please enter a lower address number.\n");
+                            "Please enter a 16 bit address number.\n");
                 } else {
                     // Convert the address the user provided to an unsigned short using strol.
                     addBreakpoint(&state, (u16)strtol(debuggerCommands + 2, &temp, 16));
+                }
+
+                break;
+            case 'n':
+
+                if(strlen(debuggerCommands) < 3){
+                    printf("To few arguments for command n\n");
+                    break;
+                }
+
+                if(strtol(debuggerCommands + 2, &temp, 16) > UINT16_MAX){
+                    printf("%The number you entered is to high!\n"
+                           "Please enter a 16 bit address number.\n");
+                } else {
+                    // Convert the address the user provided to an unsigned short using strol.
+                    deleteBreakpoint(&state, (u16)strtol(debuggerCommands + 2, &temp, 16));
                 }
 
                 break;
@@ -114,6 +154,11 @@ int main(int argc, char *argv[]) {
                 printDbgHelp();
                 break;
             case 'x':
+
+                if(strlen(debuggerCommands) < 3){
+                    printf("To few arguments for command x\n");
+                    break;
+                }
 
                 if(dumpState(&state, debuggerCommands + 2) == 0){
                     printf("CPU memory successfully dumped to %s\n", debuggerCommands + 2);
@@ -342,6 +387,7 @@ void printDbgHelp(void){
     "s N       step froward N instructions\n"
     "z N       step back N instructions\n"
     "b 0xffff  set a breakpoint at an address\n"
+    "n 0xffff  remove the breakpoint at that address\n"
     "w         write to a register or address, a prompt will guide you\n"
     "c         continue program execution until a breakpoint is hit\n"
     "d N       disassemble the next N instructions at the offset of the instruction pointer\n"
