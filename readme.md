@@ -10,6 +10,7 @@ Or ttdbg8080 for short.
 - [X] Supports break points
 - [ ] Supports watch points
 - [X] Builtin disassembler
+- [ ] Supports printing internal memory
 - [X] Step forwards in program execution
 - [X] Step backwards in program execution
 - [X] Dump the emulator memory to a file
